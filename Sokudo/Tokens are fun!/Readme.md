@@ -74,12 +74,10 @@ Then refresh the application.
 
 You should gain access to the Admin functionality.
 
-The flag is typically exposed through:
-
-GET /api/admin/users
-
-or through the /admin interface.
-
-Let's do it interactively. Send me the response from:
-
 GET /api/stats/leaderboard
+
+## 6. Retrieve the flag
+
+Notice that the user has been changed to admin. Click the admin and navigate to admin panel.
+
+The admin panel contains the flag!
