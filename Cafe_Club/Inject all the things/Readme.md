@@ -2,7 +2,7 @@
 
 ## Step 1 — Find the products API
 
-Open the Cafe Club application and open Firefox → Developer Tools → Network.
+Open Firefox → Developer Tools → Network.
 
 Load the products page.
 
