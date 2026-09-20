@@ -163,6 +163,7 @@ The password field contained the Cafe Club flag:
 bug{4YIKR0BQ11rmOjCql4z1gvUzi1wkeIzn}
 ```
 The whole attack chain
+```
 Cafe Club
     ↓
 /api/products
@@ -188,5 +189,5 @@ admin account
 password field
     ↓
 FLAG
-
+```
 Key lesson: the vulnerable input wasn't the product ID. The useful injection point was the sort query parameter on /api/products.
