@@ -1,7 +1,5 @@
 # Cafe Club — cafeclub-009 - Can you import some secrets? 
 
-SSRF to Internal Admin Configuration
-
 ## 1. Open the challenge
 
 Navigate to the running BugForge instance and register/log in:
