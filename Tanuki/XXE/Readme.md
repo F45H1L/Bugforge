@@ -4,7 +4,7 @@
 
 ## 1. Identify the Import Feature
 
-After registering/logging into the Tanuki application, I found an option called **Import Deck**.
+After registering/logging the Tanuki application, I found an option called **Import Deck**.
 
 The application allows users to create custom flashcard decks by uploading either:
 
