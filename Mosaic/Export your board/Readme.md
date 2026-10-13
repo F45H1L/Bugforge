@@ -6,7 +6,7 @@
 - **Platform:** BugForge
 - **Category:** Web Security
 - **Vulnerability:** Broken Access Control / IDOR
-- **Hint:** Export you board
+- **Hint:** Export your board
 - **Status:** Solved
 
 ## Objective
