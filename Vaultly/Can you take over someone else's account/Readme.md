@@ -1,4 +1,4 @@
-# Vaultly — Account Takeover
+# Vaultly — vaultly-002 — Can you take over someone else's account?
 
 **Challenge:** Vaultly
 **Hint:** `Can you take over someone else's account?`
