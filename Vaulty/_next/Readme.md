@@ -1,10 +1,10 @@
-# Vaultly — BugForge Write-up
+# Vaultly — vaultly-013 — 
 
 ## Lab Information
 
 * **Challenge:** Vaultly
 * **Lab Variant:** `vaultly-013`
-* **Category:** Web Security
+* **Category:** SSRF, Broken Authentication
 * **Hint:** `_next`
 
 ---
