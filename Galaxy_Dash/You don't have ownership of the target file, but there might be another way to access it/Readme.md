@@ -6,7 +6,7 @@
 - **Platform:** Bugforge
 - **Category:** Web Security
 - **Primary vulnerability:** Broken access control through avatar path manipulation
-- **Related vulnerability:** Insecure Direct Object Reference (IDOR)
+- **Related vulnerability:** Insecure Direct Object Reference (IDOR) / Server Side Request Forgery (SSRF)
 
 ### Challenge Hint
 
