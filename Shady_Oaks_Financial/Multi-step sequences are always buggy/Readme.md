@@ -1,4 +1,4 @@
-# Shady Oaks Financial - Multi-step sequences are always buggy.
+# Shady Oaks Financial - shadyoaks-008 - Multi-step sequences are always buggy.
 
 The lab provides several features, including:
 
