@@ -1,5 +1,4 @@
-# Cheesy Does It
-## My favourite bug is mass assignment.
+# Cheesy Does It My — cheesy-013 — favourite bug is mass assignment.
 
 ### Step 1 — Identify the vulnerability
 
