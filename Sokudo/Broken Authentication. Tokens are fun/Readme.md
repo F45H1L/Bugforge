@@ -1,4 +1,4 @@
-### Sokudo - Broken Authentication. Tokens are fun!
+### Sokudo - sokudo-002 - Broken Authentication. Tokens are fun!
 
 ## 1. Register/login normally
 
@@ -55,16 +55,8 @@ So:
 2026 09 05 08 42 17
 │    │  │  │  │  │
 Y    M  D  H  M  S
-## 4. Verify the forged token
 
-Send a request to:
-
-GET /api/verify-token
-Authorization: Bearer 20260905084217
-
-If the token is correct, the response should identify you as the admin. This endpoint is specifically mentioned in the published Sokudo walkthroughs.
-
-## 5. Replace your browser token
+## 4. Replace your browser token
 
 In Local Storage, replace your normal token with the forged admin token:
 
@@ -72,11 +64,18 @@ In Local Storage, replace your normal token with the forged admin token:
 
 Then refresh the application.
 
+The Web Application sends a request to:
+
+GET /api/verify-token
+Authorization: Bearer 20260905084217
+
+If the token is correct, the response should identify you as the admin.
+
 You should gain access to the Admin functionality.
 
 GET /api/stats/leaderboard
 
-## 6. Retrieve the flag
+## 5. Retrieve the flag
 
 Notice that the user has been changed to admin. Click the admin and navigate to admin panel.
 
