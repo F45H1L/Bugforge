@@ -243,38 +243,18 @@ bug{FwShF9tXRw0fzRhNeuPslX6slJq97w9x}
 
 ## Exploitation Chain
 
-```text
-Login
-  │
-  ▼
-Next.js /_next/image
-  │
-  ▼
-url= parameter
-  │
-  ▼
-SSRF
-  │
-  ▼
-127.0.0.1:9000
-  │
-  ▼
-/badge/signing-key.svg
-  │
-  ▼
-Recover HS256 signing key
-  │
-  ▼
-Forge vaultly_ops JWT
-  │
-  ▼
-/admin
-  │
-  ▼
-/admin/api/recovery
-  │
-  ▼
-Recover Flag
+```mermaid
+flowchart TD
+    A["Login"] --> B["Next.js /_next/image"]
+    B --> C["url= parameter"]
+    C --> D["SSRF"]
+    D --> E["127.0.0.1:9000"]
+    E --> F["/badge/signing-key.svg"]
+    F --> G["Recover HS256 signing key"]
+    G --> H["Forge vaultly_ops JWT"]
+    H --> I["/admin"]
+    I --> J["/admin/api/recovery"]
+    J --> K["Recover Flag"]
 ```
 
 ## Key Takeaways
