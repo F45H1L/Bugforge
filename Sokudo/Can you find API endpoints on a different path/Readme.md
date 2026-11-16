@@ -42,7 +42,7 @@ Send a request to:
 GET /v2/admin/flag
 ```
 
-or:
+Or:
 
 ```bash
 curl -i https://lab-1789837962033-8pighs.labs-app.bugforge.io/v2/admin/flag
